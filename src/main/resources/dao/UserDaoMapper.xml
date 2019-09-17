@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，对statement的信息进行分类管理 -->
+<!-- 注意：在mapper代理时，它具有特殊及重要的作用 -->
+<mapper namespace="spring.boot.com.dao.UserDao">
+    <resultMap id="UserInfo" type="spring.boot.com.entity.User">
+        <id column="id" property="id"/>
+        <result column="age" property="age"/>
+        <result column="name" property="name"/>
+        <result column="role" property="role"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+    </resultMap>
+
+
+    <select id="findInfoList" resultType="spring.boot.com.entity.User">
+        SELECT id, age ,name, role, email,phone
+        FROM
+        user
+        WHERE
+        age =#{age}
+        and name =#{name}
+    </select>
+
+
+    <select id="findCount"  resultType = "java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        user
+        WHERE
+        age =#{age}
+        and name =#{name}
+    </select>
+
+    <select id="findName"  resultType = "java.lang.String">
+        SELECT name
+        FROM
+        user
+        WHERE
+        age =#{age}
+        and name =#{name}
+    </select>
+
+    <insert id="insert" >
+        INSERT INTO USER (age, name, role, email, phone) VALUES (#{age}, #{name}, #{role}, #{email}, #{phone})
+    </insert>
+
+    <select id="selectall" resultMap="UserInfo">
+        select * from user
+    </select>
+
+
+
+</mapper>

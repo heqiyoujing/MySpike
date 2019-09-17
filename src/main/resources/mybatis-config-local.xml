@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 引入外部配置文件 -->
+    <!--<properties resource="application.properties"></properties>-->
+
+    <!--启用下划线与驼峰式命名规则的映射-->
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!--类型进行别名配置-->
+    <typeAliases>
+        <typeAlias alias="User" type="spring.boot.com.entity.User"/>
+        <package name="spring.boot.com.entity" />
+    </typeAliases>
+
+    <!--通过javaType处理枚举类型-->
+    <typeHandlers>
+        <typeHandler
+                javaType="spring.boot.com.entity.Enabled"
+                handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+    </typeHandlers>
+
+    <!-- 配置分页插件 -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库-->
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins>
+
+    <!-- 配置mybatis运行环境 -->
+    <environments default="master">
+        <environment id="master">
+            <!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+            <transactionManager type="JDBC" />
+            <!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+            <!-- POOLED 表示支持JDBC数据源连接池 -->
+            <!-- UNPOOLED 表示不支持数据源连接池 -->
+            <!-- JNDI 表示支持外部数据源连接池 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/test?characterEncoding=utf8" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </dataSource>
+        </environment>
+        <environment id="slave">
+            <!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+            <transactionManager type="JDBC" />
+            <!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+            <!-- POOLED 表示支持JDBC数据源连接池 -->
+            <!-- UNPOOLED 表示不支持数据源连接池 -->
+            <!-- JNDI 表示支持外部数据源连接池 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/user" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <mappers>
+        <mapper resource="dao/UserDaoMapper.xml"/>
+        <!--<mapper resource="dao/OrdersMapperCustom.xml"/>-->
+    </mappers>
+</configuration>
